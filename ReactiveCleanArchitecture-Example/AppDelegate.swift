@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Core
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let rootViewController: PostsViewController = storyboard.instantiateViewController(withIdentifier:"Posts") as UIViewController as! PostsViewController
+        rootViewController.viewModel = PostViewModel(useCase: DataFactory.providePostUseCase())
+        self.window?.rootViewController = rootViewController
         return true
     }
 
