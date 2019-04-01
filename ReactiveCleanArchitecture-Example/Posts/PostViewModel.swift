@@ -24,17 +24,9 @@ struct PostViewModel {
     var output: Output
     
     private let disposeBag = DisposeBag()
-    private let useCase : PostUseCase
-    //MARK: Outputs
-    private let postsSubject = ReplaySubject<[Post]>.create(bufferSize: 1)
     init(useCase: PostUseCase) {
+        let posts = useCase.getPosts().asDriver(onErrorJustReturn: [])
         self.input = Input()
-        self.output = Output(posts: postsSubject.asDriver(onErrorJustReturn: []))
-        self.useCase = useCase
-        
-        self.useCase
-        .getPosts()
-        .bind(to: postsSubject)
-        .disposed(by: disposeBag)
+        self.output = Output(posts: posts)
     }
 }
